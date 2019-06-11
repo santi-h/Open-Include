@@ -526,12 +526,14 @@ class OpenIncludeThread(threading.Thread):
         if get_setting('in_secondary_colum', False):
             window.run_command('set_layout', {"cols": [0.0, 0.5, 1.0], "rows": [0.0, 1.0], "cells": [[0, 0, 1, 1], [1, 0, 2, 1]]})
             window.focus_group(1)
-        window.open_file(path)
+        view = window.open_file(path)
+        while view.is_loading():
+            pass
 
         if rows is not None:
             start_row, end_row = min(rows), max(rows)
 
-            view = window.active_view()
+            # view = window.active_view()
             start_point = view.text_point(start_row - 1, 0)
             end_point = view.text_point(end_row, 0) - 1
 
